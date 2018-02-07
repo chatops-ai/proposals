@@ -1,5 +1,4 @@
-# proposals
-community driven proposals and discussion regarding ChatOps
+# Architecture Proposal
 
 Check out and comment on the google doc: https://docs.google.com/document/d/1aa7RVAPvgCcIfIKY3ooBYMVCjVf2np5Z1cYGBruj7lE/edit?usp=sharing
 
