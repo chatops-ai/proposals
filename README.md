@@ -19,62 +19,19 @@ It is not handed off for preparation for an API called to the integration router
 - An intents/ folder with DialogFlow intents
 - An entities/ folder with DialogFlow entities
 - A data/ folder with .txt files containing train data; one sentence per line.
-Once the API client returns the appropriate data, the controller function returns it to DialogFlow, and takes the same JSON payload from earlier, posting it to slack via DialogFlow's slack integration. The following is an example of a robust slack rich message response, which would be populated with data from the DialogParser:
-```JSON
-{
-    "text": "New comic book alert!",
-    "attachments": [
-        {
-            "title": "The Further Adventures of Slackbot",
-            "fields": [
-                {
-                    "title": "Volume",
-                    "value": "1",
-                    "short": true
-                },
-                {
-                    "title": "Issue",
-                    "value": "3",
-                    "short": true
-                }
-            ],
-            "author_name": "Stanford S. Strickland",
-            "author_icon": "http://a.slack-edge.com/7f18/img/api/homepage_custom_integrations-2x.png",
-            "image_url": "http://i.imgur.com/OJkaVOI.jpg?1"
-        },
-        {
-            "title": "Synopsis",
-            "text": "After @episod pushed exciting changes to a devious new branch back in Issue 1, Slackbot notifies @don about an unexpected deploy..."
-        },
-        {
-            "fallback": "Would you recommend it to customers?",
-            "title": "Would you recommend it to customers?",
-            "callback_id": "comic_1234_xyz",
-            "color": "#3AA3E3",
-            "attachment_type": "default",
-            "actions": [
-                {
-                    "name": "recommend",
-                    "text": "Recommend",
-                    "type": "button",
-                    "value": "recommend"
-                },
-                {
-                    "name": "no",
-                    "text": "No",
-                    "type": "button",
-                    "value": "bad"
-                }
-            ]
-        }
-    ]
-}
-```
-
+Once the API client returns the appropriate data, the controller function returns it to DialogFlow, and takes the same JSON payload from earlier, posting it to slack via DialogFlow's slack integration. 
 And that is the lifecycle of an event. I will give a more detailed example, later.
 
 ## Persistent Store
 
+```Go
+type Store interface {
+  Get(id int) (Value, error)
+  Put(data []byte) error
+  Delete(id int) 
+}
+```
+Providers:
 - DataStore
 - DynamoDB
 
