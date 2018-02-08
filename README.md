@@ -4,6 +4,11 @@ Check out and comment on the google doc: https://docs.google.com/document/d/1aa7
 
 You can join the slack community by hitting our [invite link](https://t.co/jAGkypjcQDJ). We also have a GitHub team for contributors! Once you've gotten a PR merged in, notify anyone from the `og` team and they'll add you as a contributor.
 
+## Platforms
+- `kubeless`
+- `serverless`
+- `lambda`
+
 ## Event Lifecyle
 
 In order to clarify exactly what is being built, I'd like to explain the lifecycle of an event handled by both the chatops.ai router and DialogFlow. For any event to occur, the service-specific agent is deployed. A service is defined as a communication platform than can host chatbots, i.e. Slack, HipChat, Skype. For example, Slack defines custom bots as "Apps" even though chatops.ai bots take advantage of webhooks, their multiple API's via their API client (node.js?). In this example, Gunter, along with his Slack plugin, would be deployed onto slack and send out a `ack` `POST` request to the event router. 
