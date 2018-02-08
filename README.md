@@ -4,6 +4,18 @@ Check out and comment on the google doc: https://docs.google.com/document/d/1aa7
 
 You can join the slack community by hitting our [invite link](https://t.co/jAGkypjcQDJ). We also have a GitHub team for contributors! Once you've gotten a PR merged in, notify anyone from the `og` team and they'll add you as a contributor.
 
+Table of Contents
+- [Platforms](https://github.com/chatops-ai/proposals/blob/master/README.md#platforms)
+- [Event Lifecycle](https://github.com/chatops-ai/proposals/blob/master/README.md#event-lifecyle)
+- [Persistent Store](https://github.com/chatops-ai/proposals/blob/master/README.md#perisitent-store)
+- [API Gateway and Event Triggers](https://github.com/chatops-ai/proposals/blob/master/README.md#api-gateway-and-event-triggers)
+- [Serverless Architecture via AWS lambda](https://github.com/chatops-ai/proposals/blob/master/README.md#serverless-architecture-via-aws-lambda)
+- [Plugin Architecture](https://github.com/chatops-ai/proposals/blob/master/README.md#plugin-architecture)
+- [Dialog Handlers](https://github.com/chatops-ai/proposals/blob/master/README.md#dialog-handlers)
+- [Configuration](https://github.com/chatops-ai/proposals/blob/master/README.md#configuration)
+- [Service Handlers vs Plugins](https://github.com/chatops-ai/proposals/blob/master/README.md#service-handlers-vs-plugins)
+- [Service Handlers](https://github.com/chatops-ai/proposals/blob/master/README.md#service-handlers)
+
 ## Platforms
 - `kubeless`
 - `serverless`
@@ -101,11 +113,11 @@ A plugin should consist of the following components:
  
 The API client could be an existing third party client, an official one, or a custom built client for use specifically with the plugin.
 
-### Dialog Parsers
+## Dialog Handlers
 
 A dialog parser is similar to a collection of middleware layers; it defines a sort of schema that your plugin will accept; it then parses it, passes it to and from DialogFlow, and finally delivery the payload back to the router.
 
-### Configuration
+## Configuration
 
 For configuration, I mirror my proposal of using `/v1/yaml` to ingest `yaml` files and store them in the `store` after processing them. When the code needs to get credentials or variables defined in the `config.yaml` file, it can be retrieved from the `store` and used as a global constant (?). 
 
@@ -219,7 +231,7 @@ Service providers include:
 - A bunch more that are not as relevant
 **WIP**
 
-## Service Adapters (Handlers)
+## Service Handlers
 
 Ex: 
 
