@@ -12,86 +12,14 @@ The Agent is composed of both the service-specific deployment configurations (pl
 
 Via communication with the service-specific Agent, the even router will receive `POST`ed payload from Slack based on triggered events, webhooks, and any other configuration setup for service-specific use. 
 
-Once the [event router](https://github.com/chatops-ai/proposals/issues/2) has parsed the JSON, it stores (?) relevant information into the `store`; a library built to around an interface that allows multiple backends to be switch in and out without conflict. Google's DataStore k:v NoSQL service is the preferred `store` backend. Once complete, the event router parses the data into the correct format for `POST`ing to `/query` in DialogFlow, in order to retrieve a response from the users message. An example request and response is below.
-
-```JSON
- POST https://api.dialogflow.com/v1/query?v=20150910
-
-  Headers:
-  Authorization: Bearer YOUR_CLIENT_ACCESS_TOKEN
-  Content-Type: application/json
-
-  POST body:
-  {
-    "contexts": [
-      "shop"
-    ],
-    "lang": "en",
-    "query": "I need apples",
-    "sessionId": "12345",
-    "timezone": "America/New_York"
-  }
-```
-Response:
-```JSON
-{
-  "id": "3622be70-cb49-4796-a4fa-71f16f7b5600",
-  "lang": "en",
-  "result": {
-    "action": "pickFruit",
-    "actionIncomplete": false,
-    "contexts": [
-      "shop"
-    ],
-    "fulfillment": {
-      "messages": [
-        {
-          "platform": "google",
-          "textToSpeech": "Okay how many apples?",
-          "type": "simple_response"
-        },
-        {
-          "platform": "google",
-          "textToSpeech": "Okay. How many apples?",
-          "type": "simple_response"
-        },
-        {
-          "speech": "Okay how many apples?",
-          "type": 0
-        }
-      ],
-      "speech": "Okay how many apples?"
-    },
-    "metadata": {
-      "intentId": "21478be9-bea6-449b-bcca-c5f009c0a5a1",
-      "intentName": "add-to-list",
-      "webhookForSlotFillingUsed": "false",
-      "webhookUsed": "false"
-    },
-    "parameters": {
-      "fruit": [
-        "apples"
-      ]
-    },
-    "resolvedQuery": "I need apples",
-    "score": 1,
-    "source": "agent"
-  },
-  "sessionId": "12345",
-  "status": {
-    "code": 200,
-    "errorType": "success"
-  },
-  "timestamp": "2017-09-19T21:16:44.832Z"
-}
-```
+Once the [event router](https://github.com/chatops-ai/proposals/issues/2) has parsed the JSON, it stores (?) relevant information into the `store`; a library built to around an interface that allows multiple backends to be switch in and out without conflict. Google's DataStore k:v NoSQL service is the preferred `store` backend. Once complete, the event router parses the data into the correct format for `POST`ing to `/query` in DialogFlow, in order to retrieve a response from the users message. 
 It is not handed off for preparation for an API called to the integration router. This is where integration's, not services, communicate via API requests from the integration router. A [plugin](https://github.com/chatops-ai/proposals/issues/4) consists of a few parts:
 - The API client
-- The [DialogParser](https://github.com/chatops-ai/proposals/issues/5), which runs on the integration router (proposal PR linked)
+- The Serverless controller function
 - An intents/ folder with DialogFlow intents
 - An entities/ folder with DialogFlow entities
 - A data/ folder with .txt files containing train data; one sentence per line.
-Once the API client returns the appropriate data, the DialogFlow parser returns it to DialogFlow, and takes the same JSON payload from earlier, posting it to slack via DialogFlow's slack integration. The following is an example of a robust slack rich message response, which would be populated with data from the DialogParser:
+Once the API client returns the appropriate data, the controller function returns it to DialogFlow, and takes the same JSON payload from earlier, posting it to slack via DialogFlow's slack integration. The following is an example of a robust slack rich message response, which would be populated with data from the DialogParser:
 ```JSON
 {
     "text": "New comic book alert!",
@@ -145,7 +73,10 @@ Once the API client returns the appropriate data, the DialogFlow parser returns 
 
 And that is the lifecycle of an event. I will give a more detailed example, later.
 
-## Persistent Store 
+## Persistent Store
+
+- DataStore
+- DynamoDB
 
 ## API Gateway and Event Triggers
 
@@ -193,8 +124,6 @@ This also encourages node.js developers to also build DialogParsers/ChatOps.ai i
 Resources:
 - [AWS API Gateway](https://aws.amazon.com/api-gateway/)
 - [AWS Lambda](https://aws.amazon.com/lambda/)
-
-## Plugin Architecture
 
 ## Plugin Architecture
 
